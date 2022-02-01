@@ -198,7 +198,8 @@ console.log("Foods With Tomato and Cheese as Ingredients: ", cheesyTomatoMeals)
 //Map
 
 function getArrayOfDishNames(){
-    let results = dishes.map(function(element){
+    let copiedDishes = JSON.parse(JSON.stringify(dishes));
+    let results = copiedDishes.map(function(element){
         return element.name;
     })
     return results;
@@ -211,18 +212,19 @@ console.log("List of All Dishes: ", allDishes)
 // *BONUS: (come back to this after finishing all)
 //6b. Use the filter method to eliminate duplicates, leaving only distinct values in the array
 
-// function getArrayOfCuisineTypes(){
-//     let cuisines = dishes.map(function(element){
-//         return element.cuisine;
-//     })
-//     let results = cuisines.filter(function(element){
-//         return element.cuisine
-//     })
-//     return results;
-// }
+function getArrayOfCuisineTypes(){
+    let copiedDishes = JSON.parse(JSON.stringify(dishes));
+    let cuisines = copiedDishes.map(function(element){
+        return element.cuisine;
+    })
+    let results = cuisines.filter(function(element, index){
+        return cuisines.indexOf(element) === index;
+    })
+    return results;
+}
 
-// let allCuisines = getArrayCuisineTypes();
-// console.log("List of All Dishes: ", allDishes)
+let allCuisines = getArrayOfCuisineTypes();
+console.log("List of All Cuisines: ", allCuisines)
 
 //7. Create a function that will append the cuisine type to the start of the dish's name. Ie, "Italian Pizza"
 //Map 
@@ -290,6 +292,7 @@ console.log("Total Servings of All Dishes Combined: ", totalServingsInAllDishes)
 
 function findUniqueCuisines(){
     let uniqueCuisines = [];
+    let duplicateCuisines = [];
     let copiedDishes = JSON.parse(JSON.stringify(dishes));
     let results = copiedDishes.map(function(element){
         return element.cuisine
@@ -297,8 +300,9 @@ function findUniqueCuisines(){
     for(i=0; i<results.length; i++){
         if (uniqueCuisines.includes(results[i])){
             uniqueCuisines.pop(results[i])
+            duplicateCuisines.push(results[i])
         }
-        else{
+        else if(duplicateCuisines.includes(results[i]) == false){
             uniqueCuisines.push(results[i])
         }
     }
@@ -307,6 +311,3 @@ function findUniqueCuisines(){
     })
     return finalResults
 }
-
-uniqueCuisineDishes = findUniqueCuisines();
-console.log("Dishes with Cuisines Not Shared by Other Dishes: ", uniqueCuisineDishes)
